@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from services.data_service import load_file, basic_analysis, statistical_analysis, clean_data
+from services.data_service import load_file, basic_analysis, statistical_analysis, missing_values,clean_data
 
 router = APIRouter()
 
@@ -8,6 +8,7 @@ def analyze(file_path: str):
     try:
         df = load_file(file_path)
 
+        missing = missing_values(df)
         df = clean_data(df)
 
         basic = basic_analysis(df)
@@ -15,7 +16,8 @@ def analyze(file_path: str):
 
         return {
             "basic_analysis": basic,
-            "statistics": stats
+            "statistics": stats,
+            "Missing value": missing
         }
     
     except Exception as e:

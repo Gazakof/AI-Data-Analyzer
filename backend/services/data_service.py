@@ -32,15 +32,21 @@ def statistical_analysis(df):
     except Exception: 
         return {}
     
+#nombre de valeur manquant
+def missing_values(df):
+    return df.isnull().sum().to_dict()
+    
 def clean_data(df):
     df = df.drop_duplicates()
 
     #remplir valeurs nulles numériques avec moyenne
     for col in df.select_dtypes(include = ['float64', 'int64']).columns:
-        df[col].fillna(df[col].mean(), inplace = True)
+        df[col].fillna(df[col].mean())
 
     #remplir texte avec "Unknown"
     for col in df.select_dtypes(include = ['object']).columns:
-        df[col].fillna("Unknown", inplace = True)
+        df[col].fillna("Unknown")
 
     return df
+
+#choix graphique
