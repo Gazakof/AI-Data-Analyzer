@@ -12,7 +12,7 @@ def create_graphs(file_path: str):
         results = []
 
         for g in graphs:
-            path = generate_graph(df, g["type"], d["column"])
+            path = generate_graph(df, g["type"], g["column"])
 
             results.append({
                 "type": g["type"],

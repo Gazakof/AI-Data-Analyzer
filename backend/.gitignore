@@ -1,4 +1,3 @@
 *.pyc
 .env
-*.xlsx
-*.csv
+uploads/*

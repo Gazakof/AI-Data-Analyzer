@@ -54,7 +54,7 @@ def suggest_graphs(df):
     graphs = []
 
     for col in df.columns:
-        if df[col].dtype in ["nt64", "float64"]:
+        if df[col].dtype in ["int64", "float64"]:
             graphs.append({
                 "type": "histogram",
                 "column": col
