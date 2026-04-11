@@ -1,14 +1,14 @@
-import pandas as pd
+from pandas import read_csv, read_excel
 
 def load_file(file_path: str):
     try:
         if file_path.endswith(".csv"):
             try:
-                df = pd.read_csv(file_path, encoding = "utf-8")
+                df = read_csv(file_path, encoding = "utf-8")
             except:
-                df = pd.read_csv(file_path, encoding = "latin-1")
+                df = read_csv(file_path, encoding = "latin-1")
         elif file_path.endswith(".xlsx"):
-            df = pd.read_excel(file_path, engine = "openpyxl")
+            df = read_excel(file_path, engine = "openpyxl")
         else:
             raise ValueError("Unsupported file format")
         
@@ -50,3 +50,19 @@ def clean_data(df):
     return df
 
 #choix graphique
+def suggest_graphs(df):
+    graphs = []
+
+    for col in df.columns:
+        if df[col].dtype in ["nt64", "float64"]:
+            graphs.append({
+                "type": "histogram",
+                "column": col
+            })
+        elif df[col].dtype == "object":
+            graphs.append({
+                "type": "bar",
+                "column": col
+            })
+    
+    return graphs

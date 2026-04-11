@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import os
 from dotenv import load_dotenv
-from routes import upload, analyze
+from routes import upload, analyze, graph
 
 load_dotenv()
 
@@ -26,6 +26,7 @@ app.add_middleware(
 
 app.include_router(upload.router, prefix = "/api")
 app.include_router(analyze.router, prefix = "/api")
+app.inckude_router(graph.router, prefix = "/api")
 
 @app.get("/")
 def read_root():
