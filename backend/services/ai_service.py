@@ -5,51 +5,56 @@ from dotenv import load_dotenv
 load_dotenv()
 
 API_KEY = os.getenv("API_KEY")
-API_URL = "https://api.mistral.ai/v1/chat/completions"
-MODEL = "mistral-small"
+API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={API_KEY}"
 
 def build_prompt(basic_analysis, stats, missing_values, graphs):
     return f"""
 You are a data analyst.
-Analyze the dataset and provide clear insights.
-Basic info:
+Analyze the dataset and respond in JSON format:
+{{
+  "summary": "...",
+  "key_insights": ["...", "..."],
+  "anomalies": ["...", "..."],
+  "graph_explanations": ["...", "..."]
+}}
+Data:
 {basic_analysis}
-
-Statistics:
 {stats}
-
-Missing values:
 {missing_values}
-
-Graphs:
 {graphs}
-
-Tasks:
-1. Explain the dataset in simple terms
-2. Highlight important patterns
-3. Identify anomalies or trends 
-4. Explain what the graphs show
-5. Give actionable insights
-
-Keep it clear and concise.
 """
+
 def analyze_with_ia(prompt):
     try:
         response = requests.post(
             API_URL,
             headers = {
-                "Authorization": f"Bearer {API_KEY}",
                 "Content-Type": "application/json"
             },
             json = {
-                "model": MODEL,
-                "messages": [
-                    {"role": "user", "content": prompt}
-                ]
+                "contents": [
+                    {
+                        "parts": [
+                            { "text": prompt }
+                        ]
+                    }
+                ],
+                "generationConfig": {
+                    "temperature": 0.7,
+                    "maxOutputTokens": 2000
+                }
             }
         )
+
+        if response.status_code != 200:
+            return f"Erreur API: {response.status_code} - {response.text}"
+
         data = response.json()
 
-        return data["choices"][0]["message"]["content"]
+        if "candidates" not in data:
+            return f"Réponse inattendue: {data}"
+
+        return data["candidates"][0]["content"]["parts"][0]["text"]
+    
     except Exception as e:
         return f"AI Error: {str(e)}"
