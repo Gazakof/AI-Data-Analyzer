@@ -10,7 +10,7 @@ API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-f
 def build_prompt(basic_analysis, stats, missing_values, graphs):
     return f"""
 You are a data analyst.
-Analyze the dataset and respond in JSON format:
+Analyze the dataset and respond in JSON format (Return ONLY valid JSON, No explanation, No markdown):
 {{
   "summary": "...",
   "key_insights": ["...", "..."],
