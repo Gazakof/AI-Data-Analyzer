@@ -46,6 +46,18 @@ def ai_analyis(file_path: str):
         with open(json_file_path, "w", encoding = "utf-8") as f:
             json.dump(ai_json, f, indent = 4, ensure_ascii = False)
 
+        full_report = {
+            "filename": file_path,
+            "file_path": json_file_path,
+            "basic_analysis": basic,
+            "statistics": stats,
+            "missing_values": missing,
+            "graphs": graphs,
+            "ai_insights": ai_json
+        }
+
+        save_analysis(full_report)
+
         return{
             "insights": ai_result,
             "file_path": json_file_path

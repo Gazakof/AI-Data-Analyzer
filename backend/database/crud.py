@@ -31,3 +31,15 @@ def save_analysis(data):
     conn.commit()
     cursor.close()
     conn.close()
+
+def get_analyses():
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM analyses ORDER BY upload_date DESC")
+    rows = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return rows
