@@ -1,3 +1,4 @@
 *.pyc
 .env
 uploads/*
+database/db.py

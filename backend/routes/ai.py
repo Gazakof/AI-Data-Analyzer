@@ -4,6 +4,7 @@ import uuid
 from fastapi import APIRouter, HTTPException
 from services.data_service import load_file, basic_analysis, statistical_analysis, missing_values, suggest_graphs
 from services.ai_service import build_prompt, analyze_with_ia
+from database.crud import save_analysis
 
 UPLOAD_DIR = "uploads"
 router = APIRouter()
