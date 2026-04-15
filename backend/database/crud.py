@@ -37,9 +37,15 @@ def get_analyses():
     cursor = conn.cursor()
 
     cursor.execute("SELECT * FROM analyses ORDER BY upload_date DESC")
+    
+    columns = [desc[0] for desc in cursor.description]
     rows = cursor.fetchall()
+
+    result = []
+    for row in rows:
+        result.append(dict(zip(columns,row)))
 
     cursor.close()
     conn.close()
 
-    return rows
+    return result

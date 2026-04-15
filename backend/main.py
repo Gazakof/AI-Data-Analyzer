@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 import os
 from dotenv import load_dotenv
-from routes import upload, analyze, graph, ai
+from routes import upload, analyze, graph, ai, analysis
 
 load_dotenv()
 
@@ -30,6 +30,7 @@ app.include_router(analyze.router, prefix = "/api")
 app.include_router(graph.router, prefix = "/api")
 app.mount("/uploads", StaticFiles(directory = "uploads"), name = "uploads")
 app.include_router(ai.router, prefix = "/api")
+app.include_router(analysis.router, prefix = "/api")
 
 @app.get("/")
 def read_root():
