@@ -12,4 +12,6 @@ const UploadPage = () => {
       setMessage("");
     }
   };
+
+  const handleUpload = async () => {};
 };
